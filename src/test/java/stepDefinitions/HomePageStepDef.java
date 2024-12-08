@@ -4,14 +4,18 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
+import pages.PageHome;
 
-public class LandingPageStepDef {
+public class HomePageStepDef {
     WebDriver driver;
     SharedSteps sharedSteps;
+    PageHome pageHome;
 
-    public  LandingPageStepDef(SharedSteps sharedSteps){
-        this.sharedSteps = sharedSteps;
+    public HomePageStepDef(SharedSteps sharedSteps){
+        this.sharedSteps = sharedSteps; // Dependency Injection
         driver = sharedSteps.getDriver();
+
+        pageHome = new PageHome(driver);
     }
 
     @Given("User launches Demo QA web application")
@@ -24,8 +28,8 @@ public class LandingPageStepDef {
         Assert.assertEquals("DEMOQA",driver.getTitle());
     }
 
-//    @After
-//    public void tearDown(){
-//        driver.close();
-//    }
+    @Then("Count of menus should be six")
+    public void count_of_menus_should_be_six() {
+        Assert.assertEquals(6, pageHome.getRelativeWebElements(pageHome.ele_menubar, "./div").size());
+    }
 }
